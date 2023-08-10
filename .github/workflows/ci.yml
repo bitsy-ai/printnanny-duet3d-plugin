@@ -1,0 +1,57 @@
+name: Duet 3D Plugin
+
+# Enable Buildkit and let compose use it to speed up image building
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: ["main"]
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PrintNanny Factory
+        uses: actions/checkout@v3
+      - name: Checkout DuetWebControl
+        uses: actions/checkout@v3
+        with:
+          repository: Duet3D/DuetWebControl
+          ref: master
+          path: duetwebcontrol
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          # Version Spec of the version to use in SemVer notation.
+          # It also emits such aliases as lts, latest, nightly and canary builds
+          # Examples: 12.x, 10.15.1, >=10.15.0, lts/Hydrogen, 16-nightly, latest, node
+          node-version: "16.x"
+      - name: Install dependencies
+        run: |
+          cd duetwebcontrol && npm install
+          npx browserslist@latest --update-db
+          pip install j2cli
+
+      - name: Build Duet3D Plugin
+        run: |
+          ./tools/duet3d_release.sh
+          export TARGET_DIR="$(pwd)/dist/PrintNannyDuetPlugin"
+          cd duetwebcontrol && npm run build-plugin "$TARGET_DIR"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: PrintNannyDuetPlugin
+          path: duetwebcontrol/dist/PrintNannyDuetPlugin*.zip
