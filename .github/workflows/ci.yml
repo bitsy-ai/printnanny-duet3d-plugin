@@ -1,5 +1,4 @@
-name: Duet 3D Plugin
-
+name: CI
 # Enable Buildkit and let compose use it to speed up image building
 env:
   DOCKER_BUILDKIT: 1
@@ -19,7 +18,7 @@ jobs:
   plugin:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PrintNanny Factory
+      - name: Checkout Source
         uses: actions/checkout@v3
       - name: Checkout DuetWebControl
         uses: actions/checkout@v3
