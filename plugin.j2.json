@@ -4,7 +4,7 @@
   "author": "Leigh Johnson <leigh@printnanny.ai>",
   "version": "{{ DUET3D_PLUGIN_VERSION }}",
   "license": "GPL-3.0-or-later",
-  "homepage": "https://github.com/bitsy-ai/printnanny-factory",
+  "homepage": "https://github.com/bitsy-ai/printnanny-duet3d-plugin",
   "dwcVersion": "3.4.5",
   "sbcRequired": true,
   "sbcDsfVersion": "3.4.5",

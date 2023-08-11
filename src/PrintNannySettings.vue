@@ -8,11 +8,7 @@
           Copy/paste your printer's client id and client secret below.
 
           <v-text-field v-model="clientId" required></v-text-field>
-          <v-text-field
-            v-model="clientSecret"
-            type="password"
-            required
-          ></v-text-field>
+          <v-text-field v-model="clientSecret" type="password" required></v-text-field>
         </v-card-text>
 
         <v-card-actions>
