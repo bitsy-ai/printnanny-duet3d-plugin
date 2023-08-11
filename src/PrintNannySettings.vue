@@ -1,37 +1,45 @@
 <template>
-  <v-card>
-    <v-form ref="form" @submit.prevent="submit">
-      <v-card-title class="headline"> PrintNanny Settings </v-card-title>
+  <v-container>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-form ref="form" @submit.prevent="submit">
+            <v-card-title class="headline"> PrintNanny Settings </v-card-title>
 
-      <v-card-text>
-        Copy/paste your printer's client id and client secret below.
+            <v-card-text>
+              Copy/paste your printer's client id and client secret below.
 
-        <v-text-field v-model="clientId" required></v-text-field>
-        <v-text-field v-model="clientSecret" type="password" required></v-text-field>
-      </v-card-text>
+              <v-text-field v-model="clientId" required label="Client ID"></v-text-field>
+              <v-text-field v-model="clientSecret" type="password" required label="Client Secret"></v-text-field>
+              <v-text-field v-model="apiUrl" required label="URL"></v-text-field>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text type="submit">Save</v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text type="submit">Save</v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 "use strict";
+import { mapState, mapMutations } from "vuex";
 
-// import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      shown: false,
       clientId: "",
       clientSecret: "",
+      apiUrl: "https://v2.printnanny.ai"
     };
   },
   computed: {
-    // ...mapState('plugins', ['PrintNannyDuetPlugin'])
+    ...mapState('settings')
   },
   watch: {
     // connectDialogShown(to) { this.shown = to; },
@@ -41,22 +49,16 @@ export default {
     // }
   },
   mounted() {
-    // this.hostname = this.passwordRequired ? location.host : this.lastHostname;
-    // this.shown = this.connectDialogShown;
+    this.clientId = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientId ? this.settings.plugins.PrintNannyDuetPlugin.clientId : '';
+    this.clientSecret = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientSecret ? this.settings.plugins.PrintNannyDuetPlugin.clientSecret : '';
+    this.apiUrl = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.apiUrl ? this.settings.plugins.PrintNannyDuetPlugin.apiUrl : '';
   },
   methods: {
-    // ...mapMutations(['showConnectDialog', 'hideConnectDialog']),
+    ...mapMutations('settings', ['update']),
     async submit() {
-      // if (this.shown && this.$refs.form.validate()) {
-      //     this.hideConnectDialog();
-      //     try {
-      //         await this.connect({ hostname: this.hostname, password: this.password });
-      //         this.password = '';
-      //     } catch (e) {
-      //         console.warn(e);
-      //         this.showConnectDialog();
-      //     }
-      // }
+      if (this.$refs.form.validate()) {
+        this.update(this.settings, { plugins: { PrintNannyDuetPlugin: { clientId: this.clientId, clientSecret: this.clientSecret, apiUrl: this.apiUrl } } })
+      }
     },
   },
 };
