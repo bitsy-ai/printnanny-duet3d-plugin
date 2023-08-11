@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('settings')
+    ...mapState('settings', ['plugins', 'PrintNannyDuetPlugin'])
   },
   watch: {
     // connectDialogShown(to) { this.shown = to; },
@@ -49,15 +49,15 @@ export default {
     // }
   },
   mounted() {
-    this.clientId = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientId ? this.settings.plugins.PrintNannyDuetPlugin.clientId : '';
-    this.clientSecret = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientSecret ? this.settings.plugins.PrintNannyDuetPlugin.clientSecret : '';
-    this.apiUrl = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.apiUrl ? this.settings.plugins.PrintNannyDuetPlugin.apiUrl : '';
+    // this.clientId = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientId ? this.settings.plugins.PrintNannyDuetPlugin.clientId : '';
+    // this.clientSecret = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.clientSecret ? this.settings.plugins.PrintNannyDuetPlugin.clientSecret : '';
+    // this.apiUrl = this.settings.plugins.PrintNannyDuetPlugin && this.settings.plugins.PrintNannyDuetPlugin.apiUrl ? this.settings.plugins.PrintNannyDuetPlugin.apiUrl : '';
   },
   methods: {
     ...mapMutations('settings', ['update']),
     async submit() {
       if (this.$refs.form.validate()) {
-        this.update(this.settings, { plugins: { PrintNannyDuetPlugin: { clientId: this.clientId, clientSecret: this.clientSecret, apiUrl: this.apiUrl } } })
+        this.update({ plugins: { PrintNannyDuetPlugin: { clientId: this.clientId, clientSecret: this.clientSecret, apiUrl: this.apiUrl } } })
       }
     },
   },
