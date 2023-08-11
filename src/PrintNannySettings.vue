@@ -1,23 +1,21 @@
 <template>
-  <v-dialog v-model="shown" persistent no-click-animation width="360">
-    <v-card>
-      <v-form ref="form" @submit.prevent="submit">
-        <v-card-title class="headline"> PrintNanny Settings </v-card-title>
+  <v-card>
+    <v-form ref="form" @submit.prevent="submit">
+      <v-card-title class="headline"> PrintNanny Settings </v-card-title>
 
-        <v-card-text>
-          Copy/paste your printer's client id and client secret below.
+      <v-card-text>
+        Copy/paste your printer's client id and client secret below.
 
-          <v-text-field v-model="clientId" required></v-text-field>
-          <v-text-field v-model="clientSecret" type="password" required></v-text-field>
-        </v-card-text>
+        <v-text-field v-model="clientId" required></v-text-field>
+        <v-text-field v-model="clientSecret" type="password" required></v-text-field>
+      </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text type="submit">Save</v-btn>
-        </v-card-actions>
-      </v-form>
-    </v-card>
-  </v-dialog>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" text type="submit">Save</v-btn>
+      </v-card-actions>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
