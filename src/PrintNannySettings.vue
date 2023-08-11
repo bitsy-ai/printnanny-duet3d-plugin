@@ -55,7 +55,8 @@ export default {
   },
   methods: {
     ...mapMutations('settings', ['update']),
-    async submit() {
+    submit() {
+      console.log("this.$refs.form.validate()", this.$refs.form.validate());
       if (this.$refs.form.validate()) {
         this.update({ plugins: { PrintNannyDuetPlugin: { clientId: this.clientId, clientSecret: this.clientSecret, apiUrl: this.apiUrl } } })
       }
