@@ -15,6 +15,6 @@ echo "Creating Duet3D plugin release: $TARGET_DIR"
 
 mkdir -p "$TARGET_DIR"
 
-DUET3D_PLUGIN_VERSION="$DUET3D_PLUGIN_VERSION" j2 plugins/duet3d/plugin.j2 -o "$TARGET_DIR/plugin.json"
-cp -r plugins/duet3d/dsf "$TARGET_DIR/dsf"
-cp -r plugins/duet3d/src "$TARGET_DIR/src"
+DUET3D_PLUGIN_VERSION="$DUET3D_PLUGIN_VERSION" j2 plugin.j2.json -o "$TARGET_DIR/plugin.json"
+cp -r dsf "$TARGET_DIR/dsf"
+cp -r src "$TARGET_DIR/src"
