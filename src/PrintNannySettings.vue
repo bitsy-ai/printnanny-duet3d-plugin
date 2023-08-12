@@ -9,15 +9,30 @@
             <v-card-text>
               Copy/paste your printer's client id and client secret below.
 
-              <v-text-field v-model="clientId" required label="Client ID"></v-text-field>
-              <v-text-field v-model="clientSecret" type="password" required label="Client Secret"></v-text-field>
-              <v-text-field v-model="apiUrl" required label="URL"></v-text-field>
-
+              <v-text-field
+                v-model="clientId"
+                required
+                label="Client ID"
+              ></v-text-field>
+              <v-text-field
+                v-model="clientSecret"
+                type="password"
+                required
+                label="Client Secret"
+              ></v-text-field>
+              <v-text-field
+                v-model="apiUrl"
+                required
+                label="URL"
+              ></v-text-field>
             </v-card-text>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text type="submit">Save</v-btn>
+              <v-btn color="blue darken-1" @click="testConnection"
+                >Test Connection</v-btn
+              >
+              <v-btn color="blue darken-1" type="submit">Save</v-btn>
             </v-card-actions>
           </v-form>
         </v-card>
@@ -29,7 +44,9 @@
 <script>
 "use strict";
 import { mapState, mapMutations } from "vuex";
-import { logGlobal } from "@/utils/logging";
+// import * as api from "printnanny-factory-rest-api";
+// import { logGlobal } from "@/utils/logging";
+import { getJwt } from "./utils";
 
 export default {
   data() {
@@ -37,11 +54,11 @@ export default {
       error: undefined,
       clientId: "",
       clientSecret: "",
-      apiUrl: "https://v2.printnanny.ai"
+      apiUrl: "https://v2.printnanny.ai",
     };
   },
   computed: {
-    ...mapState('settings', ['plugins'])
+    ...mapState("settings", ["plugins"]),
   },
   watch: {
     // connectDialogShown(to) { this.shown = to; },
@@ -51,16 +68,40 @@ export default {
     // }
   },
   mounted() {
-    this.clientId = this.plugins.PrintNannyDuetPlugin && this.plugins.PrintNannyDuetPlugin.clientId ? this.plugins.PrintNannyDuetPlugin.clientId : '';
-    this.clientSecret = this.plugins.PrintNannyDuetPlugin && this.plugins.PrintNannyDuetPlugin.clientSecret ? this.plugins.PrintNannyDuetPlugin.clientSecret : '';
-    this.apiUrl = this.plugins.PrintNannyDuetPlugin && this.plugins.PrintNannyDuetPlugin.apiUrl ? this.plugins.PrintNannyDuetPlugin.apiUrl : '';
+    this.clientId =
+      this.plugins.PrintNannyDuetPlugin &&
+      this.plugins.PrintNannyDuetPlugin.clientId
+        ? this.plugins.PrintNannyDuetPlugin.clientId
+        : "";
+    this.clientSecret =
+      this.plugins.PrintNannyDuetPlugin &&
+      this.plugins.PrintNannyDuetPlugin.clientSecret
+        ? this.plugins.PrintNannyDuetPlugin.clientSecret
+        : "";
+    this.apiUrl =
+      this.plugins.PrintNannyDuetPlugin &&
+      this.plugins.PrintNannyDuetPlugin.apiUrl
+        ? this.plugins.PrintNannyDuetPlugin.apiUrl
+        : "";
   },
   methods: {
-    ...mapMutations('settings', ['update']),
+    ...mapMutations("settings", ["update"]),
     submit() {
       if (this.$refs.form.validate()) {
-        this.update({ plugins: { PrintNannyDuetPlugin: { clientId: this.clientId, clientSecret: this.clientSecret, apiUrl: this.apiUrl } } });
+        this.update({
+          plugins: {
+            PrintNannyDuetPlugin: {
+              clientId: this.clientId,
+              clientSecret: this.clientSecret,
+              apiUrl: this.apiUrl,
+            },
+          },
+        });
       }
+    },
+    testConnection() {
+      const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
+      console.log("Got JWT", jwt);
     },
   },
 };
