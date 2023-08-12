@@ -29,10 +29,12 @@
 <script>
 "use strict";
 import { mapState, mapMutations } from "vuex";
+import { logGlobal } from "@/utils/logging";
 
 export default {
   data() {
     return {
+      error: undefined,
       clientId: "",
       clientSecret: "",
       apiUrl: "https://v2.printnanny.ai"
