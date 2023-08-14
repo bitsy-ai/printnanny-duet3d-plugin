@@ -20,10 +20,10 @@
 <script>
 "use strict";
 import { mapState, mapMutations } from "vuex";
-import UploadBtn from "./components/buttons/UploadBtn.vue";
+import UploadBtn from "@/components/buttons/UploadBtn.vue";
 // import * as api from "printnanny-factory-rest-api";
 // import { logGlobal } from "@/utils/logging";
-import { getJwt } from "./utils";
+import { getJwt } from "@/utils";
 
 export default {
     data() {
