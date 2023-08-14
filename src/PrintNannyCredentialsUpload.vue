@@ -73,8 +73,7 @@ export default {
             }
         },
         testConnection() {
-            if (!this.clientId || this.clientSecret || )
-                const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
+            const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
             console.log("Got JWT", jwt);
         },
     },
