@@ -25,7 +25,7 @@ repos:
             "--fix",
             "--ignore-path",
             ".gitignore",
-            "src/",
+            "src",
           ]
 
   - repo: https://github.com/asottile/pyupgrade

@@ -16,10 +16,5 @@
             2
         ]
     },
-    "ignorePatterns": [
-        "PrivacyPolicy.vue",
-        "TermsOfService.vue",
-        "vendor/**/*.js"
-    ],
     "overrides": []
 }
