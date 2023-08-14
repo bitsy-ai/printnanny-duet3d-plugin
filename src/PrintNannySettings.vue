@@ -13,9 +13,9 @@
 import PrintNannyCredentialsUpload from "./PrintNannyCredentialsUpload.vue";
 
 export default {
-  data() { },
+  data() {},
   computed: {},
-  mounted() { },
-  methods: {}
+  mounted() {},
+  methods: {},
 };
 </script>
