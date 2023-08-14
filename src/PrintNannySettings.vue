@@ -96,7 +96,7 @@ export default {
     },
     testConnection() {
       const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
-      if (jwt && jwt.access_token && jwt.refresh_token){
+      if (jwt && jwt.access_token && jwt.refresh_token) {
         logGlobal("success", "[PrintNanny] Connection ok");
       }
     },
