@@ -9,14 +9,29 @@
             <v-card-text>
               Upload the JSON file you downloaded when creating a PrintNanny
               application key.
-              <v-text-field v-model="clientId" required label="Client ID"></v-text-field>
-              <v-text-field v-model="clientSecret" type="password" required label="Client Secret"></v-text-field>
-              <v-text-field v-model="apiUrl" required label="URL"></v-text-field>
+              <v-text-field
+                v-model="clientId"
+                required
+                label="Client ID"
+              ></v-text-field>
+              <v-text-field
+                v-model="clientSecret"
+                type="password"
+                required
+                label="Client Secret"
+              ></v-text-field>
+              <v-text-field
+                v-model="apiUrl"
+                required
+                label="URL"
+              ></v-text-field>
             </v-card-text>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="testConnection">Test Connection</v-btn>
+              <v-btn color="primary" type="submit" @click="submit"
+                >Save & Test Connection</v-btn
+              >
             </v-card-actions>
           </v-form>
         </v-card>
@@ -28,8 +43,7 @@
 <script>
 "use strict";
 import { mapState, mapMutations } from "vuex";
-// import * as api from "printnanny-factory-rest-api";
-// import { logGlobal } from "@/utils/logging";
+import { logGlobal } from "@/utils/logging";
 import { getJwt } from "./utils";
 
 export default {
@@ -50,17 +64,17 @@ export default {
   mounted() {
     this.clientId =
       this.plugins.PrintNannyDuetPlugin &&
-        this.plugins.PrintNannyDuetPlugin.clientId
+      this.plugins.PrintNannyDuetPlugin.clientId
         ? this.plugins.PrintNannyDuetPlugin.clientId
         : "";
     this.clientSecret =
       this.plugins.PrintNannyDuetPlugin &&
-        this.plugins.PrintNannyDuetPlugin.clientSecret
+      this.plugins.PrintNannyDuetPlugin.clientSecret
         ? this.plugins.PrintNannyDuetPlugin.clientSecret
         : "";
     this.apiUrl =
       this.plugins.PrintNannyDuetPlugin &&
-        this.plugins.PrintNannyDuetPlugin.apiUrl
+      this.plugins.PrintNannyDuetPlugin.apiUrl
         ? this.plugins.PrintNannyDuetPlugin.apiUrl
         : "";
   },
@@ -77,11 +91,14 @@ export default {
             },
           },
         });
+        this.testConnection();
       }
     },
     testConnection() {
       const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
-      console.log("Got JWT", jwt);
+      if (jwt && jwt.access_token && jwt.refresh_token){
+        logGlobal("success", "[PrintNanny] Connection ok");
+      }
     },
   },
 };
