@@ -29,7 +29,7 @@
 import { mapState, mapMutations } from "vuex";
 // import * as api from "printnanny-factory-rest-api";
 // import { logGlobal } from "@/utils/logging";
-import { getJwt } from "@/utils";
+import { getJwt } from "./utils";
 
 export default {
   data() {
