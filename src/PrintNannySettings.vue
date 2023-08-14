@@ -9,13 +9,14 @@
             <v-card-text>
               Upload the JSON file you downloaded when creating a PrintNanny
               application key.
-
-              <upload-btn target="system" color="primary" directory="/opt/dsf/plugins/PrintNannyDuetPlugin/"></upload-btn>
+              <v-text-field v-model="clientId" required label="Client ID"></v-text-field>
+              <v-text-field v-model="clientSecret" type="password" required label="Client Secret"></v-text-field>
+              <v-text-field v-model="apiUrl" required label="URL"></v-text-field>
             </v-card-text>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="indigo darken-1" @click="testConnection">Test Connection</v-btn>
+              <v-btn color="primary" @click="testConnection">Test Connection</v-btn>
             </v-card-actions>
           </v-form>
         </v-card>
