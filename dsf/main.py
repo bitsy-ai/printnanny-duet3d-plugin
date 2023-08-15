@@ -9,10 +9,10 @@ DSF UNIX socket owned by the dsf user.
 """
 import socket
 
+from printnanny_utils import get_jwt
+
 from dsf.connections import CommandConnection, SubscribeConnection, SubscriptionMode
 from dsf.http import HttpEndpointConnection, HttpEndpointType
-
-from .utils import get_jwt
 
 
 async def get_connection_status(endpoint: HttpEndpointConnection):
