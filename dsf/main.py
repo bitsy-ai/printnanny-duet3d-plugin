@@ -9,16 +9,20 @@ DSF UNIX socket owned by the dsf user.
 """
 import socket
 
-from printnanny_utils import get_jwt
+from printnanny_utils import ConfigurationError, get_jwt
 
 from dsf.connections import CommandConnection, SubscribeConnection, SubscriptionMode
 from dsf.http import HttpEndpointConnection, HttpEndpointType
 
 
 async def get_connection_status(endpoint: HttpEndpointConnection):
-    jwt = get_jwt()
-    await endpoint.send_response(200, jwt)
-    endpoint.close()
+    try:
+        jwt = get_jwt()
+        await endpoint.send_response(200, jwt)
+    except ConfigurationError as e:
+        await endpoint.send_response(400, str(e))
+    except Exception as e:
+        await endpoint.send_response(500, str(e))
 
 
 def register_http_endpoints():
