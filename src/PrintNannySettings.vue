@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["plugins"]),
-    ...mapGetters('machine', ['connector']),
+    ...mapGetters("machine", ["connector"]),
   },
   mounted() {
     this.clientId =
@@ -91,7 +91,12 @@ export default {
       }
     },
     async testConnection() {
-      const response = await this.connector.request('GET', 'machine/printnanny/connection-status', null, 'json');
+      const response = await this.connector.request(
+        "GET",
+        "machine/printnanny/connection-status",
+        null,
+        "json",
+      );
       console.log("Connection status response: ", response);
     },
   },
