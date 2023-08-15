@@ -8,7 +8,7 @@
   "dwcVersion": "3.4.5",
   "sbcRequired": true,
   "sbcDsfVersion": "3.4.5",
-  "sbcExecutable": "printnanny_event_relay.py",
+  "sbcExecutable": "main.py",
   "sbcOutputRedirected": true,
   "sbcPermissions": [
     "objectModelReadWrite",
