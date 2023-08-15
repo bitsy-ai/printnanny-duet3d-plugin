@@ -9,9 +9,11 @@ from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
 
 from dsf.commands.object_model import get_object_model
 
-from .error import ConfigurationError
-
 PLUGIN_ID = "PrintNannyDuetPlugin"
+
+
+class ConfigurationError(Exception):
+    pass
 
 
 class PluginData(TypedDict):
