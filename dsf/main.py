@@ -15,7 +15,7 @@ from dsf.http import HttpEndpointConnection, HttpEndpointType
 
 async def get_connection_status(endpoint: HttpEndpointConnection):
     try:
-        jwt = get_jwt()
+        jwt = await get_jwt()
         await endpoint.send_response(200, jwt)
     except ConfigurationError as e:
         await endpoint.send_response(400, str(e))
