@@ -48,7 +48,7 @@ def subscribe_to_duet_model():
 
 
 if __name__ == "__main__":
-    cmd_conn = CommandConnection(debug=True)
+    cmd_conn = CommandConnection()
     try:
         cmd_conn.connect()
         endpoint = register_http_endpoints(cmd_conn)

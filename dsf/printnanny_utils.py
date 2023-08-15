@@ -28,6 +28,7 @@ class PluginData(TypedDict):
 def get_plugin_data() -> PluginData:
     duet_data = get_object_model()
     plugin_data = duet_data.__dict__.get("plugins", {}).get(PLUGIN_ID)
+    print("duet_data.__dict__", duet_data.__dict__)
     if plugin_data is None:
         raise ConfigurationError(f"plugins.{PLUGIN_ID} not set")
     return PluginData(**plugin_data)
