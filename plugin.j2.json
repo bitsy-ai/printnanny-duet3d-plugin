@@ -9,7 +9,7 @@
   "sbcRequired": true,
   "sbcDsfVersion": "3.4.5",
   "sbcExecutable": "main.py",
-  "sbcOutputRedirected": true,
+  "sbcOutputRedirected": false,
   "sbcPermissions": [
     "objectModelReadWrite",
     "registerHttpEndpoints",
