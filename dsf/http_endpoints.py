@@ -3,10 +3,12 @@ import socket
 from dsf.connections import CommandConnection
 from dsf.http import HttpEndpointConnection, HttpEndpointType
 
+from .utils import get_jwt
+
 
 async def get_connection_status(endpoint: HttpEndpointConnection):
-    await endpoint.read_request()
-    await endpoint.send_response(200, "ok")
+    jwt = get_jwt()
+    await endpoint.send_response(200, jwt)
     endpoint.close()
 
 

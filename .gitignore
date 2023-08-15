@@ -2,6 +2,7 @@
 *.code-workspace
 
 dist/
+.venv/
 
 # Logs
 logs

@@ -43,8 +43,7 @@
 <script>
 "use strict";
 import { mapState, mapMutations } from "vuex";
-import { logGlobal } from "@/utils/logging";
-import { getJwt } from "./utils";
+// import { logGlobal } from "@/utils/logging";
 
 export default {
   data() {
