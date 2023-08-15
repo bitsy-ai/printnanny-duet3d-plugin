@@ -7,8 +7,6 @@ and re-publish PrintNanny Factory events
 Make sure when running this script to have access to the
 DSF UNIX socket owned by the dsf user.
 """
-import socket
-
 from printnanny_utils import ConfigurationError, get_jwt
 
 from dsf.connections import CommandConnection, SubscribeConnection, SubscriptionMode
@@ -25,20 +23,13 @@ async def get_connection_status(endpoint: HttpEndpointConnection):
         await endpoint.send_response(500, str(e))
 
 
-def register_http_endpoints():
-    cmd_conn = CommandConnection(debug=True)
-    cmd_conn.connect()
-
+def register_http_endpoints(cmd_conn):
     # Register the connection status endpoint
     endpoint = cmd_conn.add_http_endpoint(HttpEndpointType.GET, "printnanny", "connection-status")
     # Register the handler to reply on requests
     endpoint.set_endpoint_handler(get_connection_status)
 
-    hostname = socket.gethostname()
-    url = f"http://{hostname}/machine/printnanny/connection-status"
-    print(f"Connection status available from {url}")
-
-    return cmd_conn, endpoint
+    return endpoint
 
 
 def subscribe_to_duet_model():
@@ -55,9 +46,10 @@ def subscribe_to_duet_model():
 
 
 if __name__ == "__main__":
-    subscribe_to_duet_model()
+    cmd_conn = CommandConnection(debug=True)
     try:
-        cmd_conn, endpoint = register_http_endpoints()
+        cmd_conn.connect()
+        endpoint = register_http_endpoints(cmd_conn)
         subscribe_to_duet_model()
     finally:
         if endpoint is not None:
