@@ -3,7 +3,7 @@ from base64 import b64encode
 try:
     from typing import TypedDict
 except ImportError:
-    from typing import TypedDict
+    from typing_extensions import TypedDict
 
 from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
 
