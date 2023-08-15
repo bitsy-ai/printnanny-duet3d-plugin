@@ -41,6 +41,8 @@ def subscribe_to_duet_model():
         object_model = subscribe_connection.get_object_model()
 
         print(f"{object_model}")
+        while True:
+            pass
     finally:
         subscribe_connection.close()
 
