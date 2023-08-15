@@ -9,6 +9,8 @@ DSF UNIX socket owned by the dsf user.
 """
 from dsf.connections import SubscribeConnection, SubscriptionMode
 
+from .http_endpoints import register_http_endpoints
+
 # from .http_endpoints import register_http_endpoints
 
 
@@ -27,10 +29,10 @@ def subscribe_to_duet_model():
 
 if __name__ == "__main__":
     subscribe_to_duet_model()
-    # try:
-    #     cmd_conn, endpoint = register_http_endpoints()
-    #     subscribe_to_duet_model()
-    # finally:
-    #     if endpoint is not None:
-    #         endpoint.close()
-    #     cmd_conn.close()
+    try:
+        cmd_conn, endpoint = register_http_endpoints()
+        subscribe_to_duet_model()
+    finally:
+        if endpoint is not None:
+            endpoint.close()
+        cmd_conn.close()
