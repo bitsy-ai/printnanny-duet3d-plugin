@@ -1,5 +1,9 @@
 from base64 import b64encode
-from typing import TypedDict
+
+try:
+    from typing import TypedDict
+except ImportError:
+    from typing import TypedDict
 
 from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
 
