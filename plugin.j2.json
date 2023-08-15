@@ -5,9 +5,6 @@
   "version": "{{ DUET3D_PLUGIN_VERSION }}",
   "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/bitsy-ai/printnanny-duet3d-plugin",
-  "dependencies": {
-    "printnanny-factory-rest-api": "0.1.0-SNAPSHOT.202308141655"
-  },
   "dwcVersion": "3.4.5",
   "sbcRequired": true,
   "sbcDsfVersion": "3.4.5",

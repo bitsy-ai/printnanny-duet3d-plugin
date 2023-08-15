@@ -42,7 +42,7 @@
 
 <script>
 "use strict";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 // import { logGlobal } from "@/utils/logging";
 
 export default {
@@ -55,6 +55,7 @@ export default {
   },
   computed: {
     ...mapState("settings", ["plugins"]),
+    ...mapGetters('machine', ['connector']),
   },
   mounted() {
     this.clientId =
