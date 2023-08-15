@@ -22,6 +22,7 @@
     "networkAccess"
   ],
   "sbcPythonDependencies": [
-    "dsf-python>=3.4.5"
+    "dsf-python>=3.4.5",
+    "printnanny-factory-rest-api==0.1.0rc202308141823"
   ]
 }
