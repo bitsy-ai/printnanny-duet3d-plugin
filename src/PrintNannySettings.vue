@@ -49,10 +49,6 @@ import { getJwt } from "./utils";
 export default {
   data() {
     return {
-      error: undefined,
-      printerId: "",
-      aapplicationId: "",
-      workspaceId: "",
       clientId: "",
       clientSecret: "",
       apiUrl: "https://v2.printnanny.ai",
@@ -64,41 +60,39 @@ export default {
   mounted() {
     this.clientId =
       this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.clientId
-        ? this.plugins.PrintNannyDuetPlugin.clientId
+      this.plugins.PrintNannyDuetPlugin.client_id
+        ? this.plugins.PrintNannyDuetPlugin.client_id
         : "";
     this.clientSecret =
       this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.clientSecret
-        ? this.plugins.PrintNannyDuetPlugin.clientSecret
+      this.plugins.PrintNannyDuetPlugin.client_secret
+        ? this.plugins.PrintNannyDuetPlugin.client_secret
         : "";
     this.apiUrl =
       this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.apiUrl
-        ? this.plugins.PrintNannyDuetPlugin.apiUrl
+      this.plugins.PrintNannyDuetPlugin.api_url
+        ? this.plugins.PrintNannyDuetPlugin.api_url
         : "";
   },
   methods: {
     ...mapMutations("settings", ["update"]),
-    submit() {
+    async submit() {
       if (this.$refs.form.validate()) {
         this.update({
           plugins: {
             PrintNannyDuetPlugin: {
-              clientId: this.clientId,
-              clientSecret: this.clientSecret,
-              apiUrl: this.apiUrl,
+              client_id: this.clientId,
+              client_secret: this.clientSecret,
+              api_url: this.apiUrl,
             },
           },
         });
-        this.testConnection();
+        await this.testConnection();
       }
     },
-    testConnection() {
-      const jwt = getJwt(this.clientId, this.clientSecret, this.apiUrl);
-      if (jwt && jwt.access_token && jwt.refresh_token) {
-        logGlobal("success", "[PrintNanny] Connection ok");
-      }
+    async testConnection() {
+      const response = await this.connector.request('GET', 'machine/printnanny/connection-status', null, 'json');
+      console.log("Connection status response: ", response);
     },
   },
 };
