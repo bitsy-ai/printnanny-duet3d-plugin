@@ -1,9 +1,9 @@
 from base64 import b64encode
 
 try:
-    from typing import TypedDict
+    from typing import Optional, TypedDict
 except ImportError:
-    from typing_extensions import TypedDict
+    from typing_extensions import TypedDict, Optional
 
 from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
 
@@ -17,12 +17,12 @@ class ConfigurationError(Exception):
 
 
 class PluginData(TypedDict):
-    api_url: str | None
-    application_id: str | None
-    client_secret: str | None
-    client_id: str | None
-    printer_id: str | None
-    workspace_id: str | None
+    api_url: Optional[None]
+    application_id: Optional[None]
+    client_secret: Optional[None]
+    client_id: Optional[None]
+    printer_id: Optional[None]
+    workspace_id: Optional[None]
 
 
 def get_plugin_data() -> PluginData:
