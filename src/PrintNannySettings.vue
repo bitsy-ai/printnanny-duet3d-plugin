@@ -1,35 +1,34 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="headline"> Application Key </v-card-title>
+  <v-row>
+    <v-col cols="12" md="6">
+      <v-card>
+        <v-card-title class="headline"> Application Key </v-card-title>
 
-          <v-card-text v-if="!credentialFile">
-            Upload the JSON file you downloaded when creating a PrintNanny
-            application key.
-          </v-card-text>
+        <v-card-text v-if="!credentialFile">
+          Upload the JSON file you downloaded when creating a PrintNanny
+          application key.
+        </v-card-text>
 
-          <v-card-text v-else> Using credentials file: {{}} </v-card-text>
+        <v-card-text v-else> Using credentials file: {{}} </v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <upload-btn
-              ref="mainUpload"
-              class="hidden-sm-and-down"
-              :elevation="1"
-              :directory="directory"
-              :target="uploadTarget"
-              color="primary"
-            >
-              <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application
-              key
-            </upload-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <upload-btn
+            ref="mainUpload"
+            class="hidden-sm-and-down"
+            :elevation="1"
+            :directory="directory"
+            :target="uploadTarget"
+            color="primary"
+            @upload-complete="onUploadComplete"
+          >
+            <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application key
+          </upload-btn>
+          <v-btn v-if="credentialFile" color="green">Test Connection</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -61,14 +60,13 @@ export default {
   },
   methods: {
     ...mapMutations("settings", ["update"]),
-    async submit() {
+    async onUploadComplete(files) {
+      console.log("Finished uploading file", files);
       if (this.$refs.form.validate()) {
         this.update({
           plugins: {
             PrintNannyDuetPlugin: {
-              client_id: this.clientId,
-              client_secret: this.clientSecret,
-              api_url: this.apiUrl,
+              credentialFile: files,
             },
           },
         });
