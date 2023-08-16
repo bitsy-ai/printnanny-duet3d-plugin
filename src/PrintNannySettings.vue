@@ -8,7 +8,12 @@
           <v-card-text v-if="!credentialFile">
             Upload the JSON file you downloaded when creating a PrintNanny
             application key.
+          </v-card-text>
 
+          <v-card-text v-else> Using credentials file: {{}} </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
             <upload-btn
               ref="mainUpload"
               class="hidden-sm-and-down"
@@ -16,16 +21,10 @@
               :directory="directory"
               :target="uploadTarget"
               color="primary"
-            ></upload-btn>
-          </v-card-text>
-
-          <v-card-text v-else> Using credentials file: {{}} </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" type="submit" @click="submit"
-              >Save & Test Connection</v-btn
             >
+              <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application
+              key
+            </upload-btn>
           </v-card-actions>
         </v-card>
       </v-col>
