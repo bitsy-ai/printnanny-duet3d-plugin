@@ -5,7 +5,7 @@
         <v-card>
             <v-card-title class="headline"> Application Key </v-card-title>
 
-            <v-card-text v-if="credentialFile">
+            <v-card-text v-if="!credentialFile">
               Upload the JSON file you downloaded when creating a PrintNanny
               application key.
 
