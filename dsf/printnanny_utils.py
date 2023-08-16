@@ -8,7 +8,9 @@ try:
 except ImportError:
     from typing_extensions import TypedDict, Optional
 
-from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
+from printnanny_factory_rest_api import ApiClient, AuthApi
+from printnanny_factory_rest_api import Configuration as ApiConfiguration
+from printnanny_factory_rest_api import OauthTokenRequest
 
 from dsf.connections import CommandConnection
 
@@ -50,14 +52,18 @@ async def get_jwt():
     plugin_data = load_credentials()
     client_secret = plugin_data.get("client_secret")
     client_id = plugin_data.get("client_id")
+    api_url = plugin_data.get("api_url")
     if client_secret is None:
-        raise ConfigurationError(f"plugins.{PLUGIN_ID}.client_secret not set")
+        raise ConfigurationError("client_secret not set")
     if client_id is None:
-        raise ConfigurationError(f"plugins.{PLUGIN_ID}.client_id not set")
+        raise ConfigurationError("client_id not set")
+    if api_url is None:
+        raise ConfigurationError("api_url not set")
 
     credential = f"{client_id}:{client_secret}"
     encoded_credential = f"Basic {b64encode(credential.encode('utf-8'))}"
-    api_client = ApiClient()
+    api_config = ApiConfiguration(host=api_url)
+    api_client = ApiClient(configuration=api_config)
 
     api_client.set_default_header("Authorization", encoded_credential)
     auth_api = AuthApi(api_client=api_client)

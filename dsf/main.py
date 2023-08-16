@@ -7,6 +7,8 @@ and re-publish PrintNanny Factory events
 Make sure when running this script to have access to the
 DSF UNIX socket owned by the dsf user.
 """
+import json
+
 from printnanny_utils import ConfigurationError, get_jwt
 
 from dsf.connections import CommandConnection, SubscribeConnection, SubscriptionMode
@@ -18,9 +20,9 @@ async def get_connection_status(endpoint: HttpEndpointConnection):
         jwt = await get_jwt()
         await endpoint.send_response(200, jwt)
     except ConfigurationError as e:
-        await endpoint.send_response(400, str(e))
+        await endpoint.send_response(400, json.dumps({"error": str(e)}))
     except Exception as e:
-        await endpoint.send_response(500, str(e))
+        await endpoint.send_response(500, json.dumps({"error": str(e), "traceback": e.__traceback__}))
 
 
 def register_http_endpoints(cmd_conn):
