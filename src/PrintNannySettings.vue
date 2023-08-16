@@ -23,6 +23,7 @@
             @upload-complete="onUploadComplete"
           >
             <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application key
+            & test connection
           </upload-btn>
           <v-btn v-if="credentialFile" color="green">Test Connection</v-btn>
         </v-card-actions>
@@ -41,7 +42,7 @@ export default {
   data() {
     return {
       credentialFile: null,
-      directory: `${Path.system}}/PrintNannyDuetPlugin/`,
+      directory: `${Path.system}/PrintNannyDuetPlugin/`,
     };
   },
   computed: {
@@ -62,16 +63,14 @@ export default {
     ...mapMutations("settings", ["update"]),
     async onUploadComplete(files) {
       console.log("Finished uploading file", files);
-      if (this.$refs.form.validate()) {
-        this.update({
-          plugins: {
-            PrintNannyDuetPlugin: {
-              credentialFile: files,
-            },
+      this.update({
+        plugins: {
+          PrintNannyDuetPlugin: {
+            credentialFile: files,
           },
-        });
-        await this.testConnection();
-      }
+        },
+      });
+      await this.testConnection();
     },
     async testConnection() {
       const response = await this.connector.request(
