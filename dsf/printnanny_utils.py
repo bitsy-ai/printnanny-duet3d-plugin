@@ -35,13 +35,11 @@ def load_credentials() -> PluginData:
     cmd_conn.connect()
     res = cmd_conn.resolve_path(f"0:/sys/{PLUGIN_ID}/")
     cmd_conn.close()
-    files = [file for file in os.listdir(res.result) if file.endswidth(".json")]
-    if len(files) > 1:
-        raise ConfigurationError(
-            f"Found more than one credential file: {files} Remove stale credentials and try again."
-        )
-    elif len(files) == 0:
+    files = [file for file in os.listdir(res.result) if file.endswith(".json")]
+    if len(files) == 0:
         raise ConfigurationError("No credential file found. Upload the .json credentials downloaded from PrintNanny.")
+    if len(files) > 1:
+        logger.warn(f"Found more than one credential file: {files} Remove stale credentials and try again.")
     credentials_file = files[0]
 
     with open(credentials_file) as f:
