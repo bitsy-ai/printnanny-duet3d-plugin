@@ -1,3 +1,6 @@
+import json
+import logging
+import os
 from base64 import b64encode
 
 try:
@@ -7,9 +10,11 @@ except ImportError:
 
 from printnanny_factory_rest_api import ApiClient, AuthApi, OauthTokenRequest
 
-from dsf.commands.object_model import get_object_model
+from dsf.connections import CommandConnection
 
 PLUGIN_ID = "PrintNannyDuetPlugin"
+
+logger = logging.getLogger(__name__)
 
 
 class ConfigurationError(Exception):
@@ -25,17 +30,26 @@ class PluginData(TypedDict):
     workspace_id: Optional[None]
 
 
-def get_plugin_data() -> PluginData:
-    duet_data = get_object_model()
-    plugin_data = duet_data.__dict__.get("plugins", {}).get(PLUGIN_ID)
-    print("duet_data.__dict__", duet_data.__dict__)
-    if plugin_data is None:
-        raise ConfigurationError(f"plugins.{PLUGIN_ID} not set")
-    return PluginData(**plugin_data)
+def load_credentials() -> PluginData:
+    cmd_conn = CommandConnection()
+    cmd_conn.connect()
+    res = cmd_conn.resolve_path(f"0:/sys/{PLUGIN_ID}/")
+    cmd_conn.close()
+    files = [file for file in os.listdir(res.result) if file.endswidth(".json")]
+    if len(files) > 1:
+        raise ConfigurationError(
+            f"Found more than one credential file: {files} Remove stale credentials and try again."
+        )
+    elif len(files) == 0:
+        raise ConfigurationError("No credential file found. Upload the .json credentials downloaded from PrintNanny.")
+    credentials_file = files[0]
+
+    with open(credentials_file) as f:
+        return json.loads(f.read())
 
 
 async def get_jwt():
-    plugin_data = get_plugin_data()
+    plugin_data = load_credentials()
     client_secret = plugin_data.get("client_secret")
     client_id = plugin_data.get("client_id")
     if client_secret is None:

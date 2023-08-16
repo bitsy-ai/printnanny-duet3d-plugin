@@ -3,29 +3,20 @@
     <v-row>
       <v-col cols="12" md="6">
         <v-card>
-          <v-form ref="form" @submit.prevent="submit">
             <v-card-title class="headline"> Application Key </v-card-title>
 
-            <v-card-text>
+            <v-card-text v-if="credentialFile">
               Upload the JSON file you downloaded when creating a PrintNanny
               application key.
-              <v-text-field
-                v-model="clientId"
-                required
-                label="Client ID"
-              ></v-text-field>
-              <v-text-field
-                v-model="clientSecret"
-                type="password"
-                required
-                label="Client Secret"
-              ></v-text-field>
-              <v-text-field
-                v-model="apiUrl"
-                required
-                label="URL"
-              ></v-text-field>
+
+              <upload-btn ref="mainUpload" class="hidden-sm-and-down" :elevation="1" :directory="directory" :target="uploadTarget" color="primary"></upload-btn>
+
             </v-card-text>
+
+            <v-card-text v-else>
+              Using credentials file: {{  }}
+            </v-card-text>
+
 
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -33,7 +24,6 @@
                 >Save & Test Connection</v-btn
               >
             </v-card-actions>
-          </v-form>
         </v-card>
       </v-col>
     </v-row>
@@ -44,35 +34,28 @@
 "use strict";
 import { mapState, mapMutations, mapGetters } from "vuex";
 // import { logGlobal } from "@/utils/logging";
+import Path from '@/utils/path'
 
 export default {
   data() {
     return {
-      clientId: "",
-      clientSecret: "",
-      apiUrl: "https://v2.printnanny.ai",
+      credentialFile: null,
+      directory: `${Path.system}}/PrintNannyDuetPlugin/`
     };
   },
   computed: {
+    ...mapState('machine/model', {
+			systemDirectory: state => state.directories.systemDirectory
+		}),
     ...mapState("settings", ["plugins"]),
     ...mapGetters("machine", ["connector"]),
   },
   mounted() {
-    this.clientId =
+    this.credentialFile =
       this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.client_id
-        ? this.plugins.PrintNannyDuetPlugin.client_id
-        : "";
-    this.clientSecret =
-      this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.client_secret
-        ? this.plugins.PrintNannyDuetPlugin.client_secret
-        : "";
-    this.apiUrl =
-      this.plugins.PrintNannyDuetPlugin &&
-      this.plugins.PrintNannyDuetPlugin.api_url
-        ? this.plugins.PrintNannyDuetPlugin.api_url
-        : "";
+      this.plugins.PrintNannyDuetPlugin.credentialFile
+        ? this.plugins.PrintNannyDuetPlugin.credentialFile
+        : null;
   },
   methods: {
     ...mapMutations("settings", ["update"]),
