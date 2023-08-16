@@ -40,7 +40,7 @@ def load_credentials() -> PluginData:
         raise ConfigurationError("No credential file found. Upload the .json credentials downloaded from PrintNanny.")
     if len(files) > 1:
         logger.warn(f"Found more than one credential file: {files} Remove stale credentials and try again.")
-    credentials_file = files[0]
+    credentials_file = os.path.join(res.result, files[0])
 
     with open(credentials_file) as f:
         return json.loads(f.read())
