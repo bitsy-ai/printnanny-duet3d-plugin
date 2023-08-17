@@ -2,6 +2,7 @@ import json
 import logging
 import os
 from base64 import b64encode
+from typing import Any, Dict
 
 try:
     from typing import Optional, TypedDict
@@ -15,6 +16,7 @@ from printnanny_factory_rest_api import OauthTokenRequest
 from dsf.connections import CommandConnection
 
 PLUGIN_ID = "PrintNannyDuetPlugin"
+DWC_SETTINGS_FILE = "dwc-settings.json"
 
 logger = logging.getLogger(__name__)
 
@@ -32,19 +34,39 @@ class PluginData(TypedDict):
     workspace_id: Optional[None]
 
 
-def load_credentials() -> PluginData:
+def parse_dwc_settings(settings_file: str):
+    pass
+
+
+def get_system_directory() -> str:
     cmd_conn = CommandConnection()
     cmd_conn.connect()
-    res = cmd_conn.resolve_path(f"0:/sys/{PLUGIN_ID}/")
+    res = cmd_conn.resolve_path("0:/sys/")
     cmd_conn.close()
-    files = [file for file in os.listdir(res.result) if file.endswith(".json")]
-    if len(files) == 0:
-        raise ConfigurationError("No credential file found. Upload the .json credentials downloaded from PrintNanny.")
-    if len(files) > 1:
-        logger.warn(f"Found more than one credential file: {files} Remove stale credentials and try again.")
-    credentials_file = os.path.join(res.result, files[0])
+    return res.result
 
-    with open(credentials_file) as f:
+
+def get_dwc_settings(sys_dir: Optional[str] = None) -> Dict[str, Any]:
+    if sys_dir is None:
+        sys_dir = get_system_directory()
+    dwc_settings_file = os.path.join(sys_dir, DWC_SETTINGS_FILE)
+    with open(dwc_settings_file) as f:
+        return json.load(f)
+
+
+def get_credential_file() -> Optional[str]:
+    sys_dir = get_system_directory()
+    dwc_settings = get_dwc_settings(sys_dir=sys_dir)
+    selected = dwc_settings.get("main", {}).get("plugins", {}).get(PLUGIN_ID, {}).get("credentialFile")
+    return selected
+
+
+def load_credentials() -> PluginData:
+    credential_file = get_credential_file()
+    if not credential_file:
+        raise ConfigurationError("No credential file is set")
+
+    with open(credential_file) as f:
         return json.loads(f.read())
 
 
