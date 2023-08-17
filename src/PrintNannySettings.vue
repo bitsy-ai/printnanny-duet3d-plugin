@@ -58,15 +58,13 @@ export default {
         : null;
   },
   methods: {
-    ...mapMutations("settings", ["update"]),
+    ...mapMutations("settings", ["setPluginData"]),
     async onUploadComplete(files) {
-      console.log("Finished uploading file", files);
-      this.update({
-        plugins: {
-          PrintNannyDuetPlugin: {
-            credentialFile: files,
-          },
-        },
+      console.log("Finished uploading file", files[0]);
+      this.setPluginData({
+        plugin: "PrintNannyDuetPlugin",
+        key: "credentialFile",
+        value: files[0],
       });
       await this.testConnection();
     },
