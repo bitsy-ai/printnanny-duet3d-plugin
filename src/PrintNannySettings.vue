@@ -13,7 +13,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <upload-btn
+          <CustomUploadBtn
             ref="mainUpload"
             :elevation="1"
             :directory="directory"
@@ -23,7 +23,7 @@
           >
             <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application key
             & test connection
-          </upload-btn>
+          </CustomUploadBtn>
           <v-btn v-if="credentialFile" color="green">Test Connection</v-btn>
         </v-card-actions>
       </v-card>
@@ -34,7 +34,6 @@
 <script>
 "use strict";
 import { mapState, mapMutations, mapGetters } from "vuex";
-// import { logGlobal } from "@/utils/logging";
 import Path from "@/utils/path";
 
 export default {
