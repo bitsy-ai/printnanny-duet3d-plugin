@@ -14,7 +14,8 @@
         "indent": [
             "error",
             2
-        ]
+        ],
+        "vue/no-v-model-argument": "off"
     },
     "overrides": []
 }

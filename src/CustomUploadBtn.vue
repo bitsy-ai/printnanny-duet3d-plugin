@@ -34,13 +34,6 @@
       multiple
       @change="fileSelected"
     />
-    <firmware-update-dialog
-      v-model:shown="confirmUpdate"
-      @confirmed="startUpdate"
-    ></firmware-update-dialog>
-    <config-updated-dialog
-      v-model:shown="confirmFirmwareReset"
-    ></config-updated-dialog>
   </div>
 </template>
 
@@ -103,29 +96,29 @@ export default {
     },
     accept() {
       switch (this.target) {
-      case "gcodes":
-        return ".g,.gcode,.gc,.gco,.nc,.ngc,.tap";
-      case "start":
-        return ".g,.gcode,.gc,.gco,.nc,.ngc,.tap,.zip";
-      case "macros":
-        return "*";
-      case "filaments":
-        return ".zip";
-      case "firmware":
-        return ".zip,.bin,.uf2";
-      case "menu":
-        return "*";
-      case "system":
-        return (
-          ".zip,.bin,.uf2,.json,.g,.csv,.xml" +
+        case "gcodes":
+          return ".g,.gcode,.gc,.gco,.nc,.ngc,.tap";
+        case "start":
+          return ".g,.gcode,.gc,.gco,.nc,.ngc,.tap,.zip";
+        case "macros":
+          return "*";
+        case "filaments":
+          return ".zip";
+        case "firmware":
+          return ".zip,.bin,.uf2";
+        case "menu":
+          return "*";
+        case "system":
+          return (
+            ".zip,.bin,.uf2,.json,.g,.csv,.xml" +
             (this.connectorType === "rest" ? ",.deb" : "")
-        );
-      case "web":
-        return ".zip,.csv,.json,.htm,.html,.ico,.xml,.css,.map,.js,.ttf,.eot,.svg,.woff,.woff2,.jpeg,.jpg,.png,.gz";
-      case "plugin":
-        return ".zip";
-      case "update":
-        return ".zip,.bin,.uf2";
+          );
+        case "web":
+          return ".zip,.csv,.json,.htm,.html,.ico,.xml,.css,.map,.js,.ttf,.eot,.svg,.woff,.woff2,.jpeg,.jpg,.png,.gz";
+        case "plugin":
+          return ".zip";
+        case "update":
+          return ".zip,.bin,.uf2";
       }
       return undefined;
     },
@@ -135,25 +128,25 @@ export default {
       }
 
       switch (this.target) {
-      case "gcodes":
-        return this.directories.gCodes;
-      case "start":
-        return this.directories.gCodes;
-      case "firmware":
-        return this.directories.firmware;
-      case "macros":
-        return this.directories.macros;
-      case "filaments":
-        return this.directories.filaments;
-      case "menu":
-        return this.directories.menu;
-      case "system":
-        return this.directories.system;
-      case "web":
-        return this.directories.web;
+        case "gcodes":
+          return this.directories.gCodes;
+        case "start":
+          return this.directories.gCodes;
+        case "firmware":
+          return this.directories.firmware;
+        case "macros":
+          return this.directories.macros;
+        case "filaments":
+          return this.directories.filaments;
+        case "menu":
+          return this.directories.menu;
+        case "system":
+          return this.directories.system;
+        case "web":
+          return this.directories.web;
         // plugin is not applicable
-      case "update":
-        return this.directories.firmware;
+        case "update":
+          return this.directories.firmware;
       }
       return undefined;
     },
