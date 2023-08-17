@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { registerRoute } from "../../routes";
 import PrintNannySettings from "./PrintNannySettings.vue";
-import CustomUploadBtn from "./CustomUploadBtn";
+import CustomUploadBtn from "./CustomUploadBtn.vue";
 
 registerRoute(PrintNannySettings, {
   Settings: {
