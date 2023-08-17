@@ -15,7 +15,6 @@
           <v-spacer></v-spacer>
           <upload-btn
             ref="mainUpload"
-            class="hidden-sm-and-down"
             :elevation="1"
             :directory="directory"
             :target="uploadTarget"
