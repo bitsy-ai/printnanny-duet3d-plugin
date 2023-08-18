@@ -9,7 +9,9 @@
           application key.
         </v-card-text>
 
-        <v-card-text v-else> Using credentials file: {{}} </v-card-text>
+        <v-card-text v-else>
+          Using credentials file: <strong>{{ credentialFile }} </strong>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -22,9 +24,9 @@
             @upload-complete="onUploadComplete"
           >
             <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application key
-            & test connection
           </CustomUploadBtn>
-          <v-btn v-if="credentialFile" color="green">Test Connection</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn v-if="credentialFile" color="secondary">Test Connection</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -49,6 +51,9 @@ export default {
     }),
     ...mapState("settings", ["plugins"]),
     ...mapGetters("machine", ["connector"]),
+    credentialFilePath() {
+      return `${this.systemDirectory}/${this.credentialFile}`;
+    },
   },
   mounted() {
     this.credentialFile =
