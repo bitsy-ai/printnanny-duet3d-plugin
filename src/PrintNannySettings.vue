@@ -38,7 +38,6 @@
             <v-icon class="mr-2">mdi-cloud-upload</v-icon>Overwrite application
             key
           </CustomUploadBtn>
-          <v-spacer></v-spacer>
           <v-btn v-if="credentialFile" color="secondary" @click="testConnection"
             >Test Connection</v-btn
           >
