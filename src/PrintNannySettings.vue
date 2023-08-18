@@ -51,9 +51,6 @@ export default {
     }),
     ...mapState("settings", ["plugins"]),
     ...mapGetters("machine", ["connector"]),
-    credentialFilePath() {
-      return `${this.systemDirectory}/${this.credentialFile}`;
-    },
   },
   mounted() {
     this.credentialFile =
@@ -69,7 +66,7 @@ export default {
       this.setPluginData({
         plugin: "PrintNannyDuetPlugin",
         key: "credentialFile",
-        value: files[0],
+        value: files[0].filename,
       });
       await this.testConnection();
     },
