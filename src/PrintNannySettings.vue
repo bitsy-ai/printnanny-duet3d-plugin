@@ -16,6 +16,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <CustomUploadBtn
+            v-if="!credentialFile"
             ref="mainUpload"
             :elevation="1"
             :directory="directory"
@@ -24,6 +25,18 @@
             @upload-complete="onUploadComplete"
           >
             <v-icon class="mr-2">mdi-cloud-upload</v-icon>Upload application key
+          </CustomUploadBtn>
+          <CustomUploadBtn
+            v-else
+            ref="mainUpload"
+            :elevation="1"
+            :directory="directory"
+            :target="uploadTarget"
+            color="red"
+            @upload-complete="onUploadComplete"
+          >
+            <v-icon class="mr-2">mdi-cloud-upload</v-icon>Overwrite application
+            key
           </CustomUploadBtn>
           <v-spacer></v-spacer>
           <v-btn v-if="credentialFile" color="secondary">Test Connection</v-btn>
