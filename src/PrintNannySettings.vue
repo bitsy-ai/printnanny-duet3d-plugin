@@ -39,7 +39,9 @@
             key
           </CustomUploadBtn>
           <v-spacer></v-spacer>
-          <v-btn v-if="credentialFile" color="secondary">Test Connection</v-btn>
+          <v-btn v-if="credentialFile" color="secondary" @click="testConnection"
+            >Test Connection</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-col>
