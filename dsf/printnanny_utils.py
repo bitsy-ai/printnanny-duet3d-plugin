@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from base64 import b64encode
 from typing import Any, Dict
 
@@ -38,36 +37,34 @@ def parse_dwc_settings(settings_file: str):
     pass
 
 
-def get_system_directory() -> str:
+def get_directory(dir: str) -> str:
     cmd_conn = CommandConnection()
     cmd_conn.connect()
-    res = cmd_conn.resolve_path("0:/sys/")
+    res = cmd_conn.resolve_path(dir)
     cmd_conn.close()
     return res.result
 
 
-def get_dwc_settings(sys_dir: Optional[str] = None) -> Dict[str, Any]:
-    if sys_dir is None:
-        sys_dir = get_system_directory()
-    dwc_settings_file = os.path.join(sys_dir, DWC_SETTINGS_FILE)
-    with open(dwc_settings_file) as f:
+def get_dwc_settings() -> Dict[str, Any]:
+    path = get_directory("0:/sys/dwc-settings.json")
+    with open(path) as f:
         return json.load(f)
 
 
-def get_credential_file() -> Optional[str]:
-    sys_dir = get_system_directory()
-    dwc_settings = get_dwc_settings(sys_dir=sys_dir)
+def get_credential_file_path() -> Optional[str]:
+    dwc_settings = get_dwc_settings()
     selected = dwc_settings.get("main", {}).get("plugins", {}).get(PLUGIN_ID, {}).get("credentialFile")
     return selected
 
 
 def load_credentials() -> PluginData:
-    credential_file = get_credential_file()
+    credential_file = get_credential_file_path()
     if not credential_file:
         raise ConfigurationError("No credential file is set")
 
-    with open(credential_file) as f:
-        return json.loads(f.read())
+    path = get_directory(credential_file)
+    with open(path) as f:
+        return json.load(f)
 
 
 async def get_jwt():
