@@ -22,7 +22,8 @@ async def get_connection_status(endpoint: HttpEndpointConnection):
     except ConfigurationError as e:
         await endpoint.send_response(400, json.dumps({"error": str(e)}))
     except Exception as e:
-        await endpoint.send_response(500, json.dumps({"error": str(e), "traceback": e.__traceback__}))
+        traceback = "".join(e.__traceback__.format_stack())
+        await endpoint.send_response(500, json.dumps({"error": str(e), "traceback": traceback}))
 
 
 def register_http_endpoints(cmd_conn):
