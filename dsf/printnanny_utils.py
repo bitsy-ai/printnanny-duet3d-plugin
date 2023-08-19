@@ -80,11 +80,9 @@ async def get_jwt():
         raise ConfigurationError("api_url not set")
 
     credential = f"{client_id}:{client_secret}"
-    encoded_credential = f"Basic {b64encode(credential.encode('utf-8'))}"
-    api_config = ApiConfiguration(host=api_url)
+    api_key = b64encode(credential.encode("utf-8"))
+    api_config = ApiConfiguration(host=api_url, api_key=api_key, api_key_prefix="Basic")
     api_client = ApiClient(configuration=api_config)
-
-    api_client.set_default_header("Authorization", encoded_credential)
     auth_api = AuthApi(api_client=api_client)
     response = await auth_api.o_token_create(GrantTypeEnum.CLIENT_CREDENTIALS)
     return response
