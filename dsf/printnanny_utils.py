@@ -10,7 +10,7 @@ except ImportError:
 
 from printnanny_factory_rest_api import ApiClient, AuthApi
 from printnanny_factory_rest_api import Configuration as ApiConfiguration
-from printnanny_factory_rest_api import OauthTokenRequest
+from printnanny_factory_rest_api import GrantTypeEnum
 
 from dsf.connections import CommandConnection
 
@@ -86,6 +86,5 @@ async def get_jwt():
 
     api_client.set_default_header("Authorization", encoded_credential)
     auth_api = AuthApi(api_client=api_client)
-    request = OauthTokenRequest(grant_type="client_credentials")
-    response = await auth_api.o_token_create(request)
+    response = await auth_api.o_token_create(GrantTypeEnum.CLIENT_CREDENTIALS)
     return response
