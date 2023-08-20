@@ -1,0 +1,26 @@
+{
+  "name": "PrintNanny Duet Plugin",
+  "id": "PrintNannyDuetPlugin",
+  "author": "Leigh Johnson <leigh@printnanny.ai>",
+  "version": "{{ DUET3D_PLUGIN_VERSION }}",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/bitsy-ai/printnanny-duet3d-plugin",
+  "dwcVersion": "3.4.5",
+  "sbcRequired": true,
+  "sbcDsfVersion": "3.4.5",
+  "sbcExecutable": "main.py",
+  "sbcOutputRedirected": false,
+  "sbcPermissions": [
+    "objectModelReadWrite",
+    "registerHttpEndpoints",
+    "fileSystemAccess",
+    "launchProcesses",
+    "managePlugins",
+    "networkAccess"
+  ],
+  "sbcPythonDependencies": [
+    "dsf-python>=3.4.5",
+    "printnanny-factory-rest-api>=0.1.0rc202308191701",
+    "typing-extensions>=4.7.1"
+  ]
+}

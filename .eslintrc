@@ -1,0 +1,21 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:vue/vue3-recommended",
+        "eslint:recommended",
+        "@vue/eslint-config-prettier"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "vue/no-v-model-argument": "off"
+    },
+    "overrides": []
+}

@@ -1,6 +1,9 @@
 # Visual Studio
 *.code-workspace
 
+dist/
+.venv/
+
 # Logs
 logs
 *.log

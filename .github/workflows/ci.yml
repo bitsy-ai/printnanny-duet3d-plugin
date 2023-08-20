@@ -46,9 +46,7 @@ jobs:
 
       - name: Build Duet3D Plugin
         run: |
-          ./tools/duet3d_release.sh
-          export TARGET_DIR="$(pwd)/dist/PrintNannyDuetPlugin"
-          cd duetwebcontrol && npm run build-plugin "$TARGET_DIR"
+          make plugin
 
       - uses: actions/upload-artifact@v3
         with:
