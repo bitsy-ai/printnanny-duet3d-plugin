@@ -10,7 +10,7 @@ except ImportError:
 
 from printnanny_factory_rest_api import ApiClient, AuthApi
 from printnanny_factory_rest_api import Configuration as ApiConfiguration
-from printnanny_factory_rest_api import GrantTypeEnum
+from printnanny_factory_rest_api import GrantTypeEnum, PrintersApi
 
 from dsf.connections import CommandConnection
 
@@ -85,4 +85,17 @@ async def get_jwt():
     api_client = ApiClient(configuration=api_config, header_name="Authorization", header_value=f"Basic {api_key}")
     auth_api = AuthApi(api_client=api_client)
     response = await auth_api.o_token_create(GrantTypeEnum.CLIENT_CREDENTIALS)
+    return response
+
+
+async def get_printer(jwt=Optional[str]):
+    plugin_data = load_credentials()
+    printer_id = plugin_data.get("printer")
+    workspace_id = plugin_data.get("workspace")
+    api_url = plugin_data.get("api_url")
+    if not jwt:
+        access_token = await get_jwt()["access_token"]
+    api_config = ApiConfiguration(host=api_url, access_token=access_token)
+    printers_api = PrintersApi(configuration=api_config)
+    response = await printers_api.workspaces_printers_retrieve(printer_id, workspace_id)
     return response

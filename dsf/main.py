@@ -10,7 +10,7 @@ DSF UNIX socket owned by the dsf user.
 import json
 import traceback
 
-from printnanny_utils import ConfigurationError, get_jwt
+from printnanny_utils import ConfigurationError, get_jwt, get_printer
 
 from dsf.connections import CommandConnection, SubscribeConnection, SubscriptionMode
 from dsf.http import HttpEndpointConnection, HttpEndpointType
@@ -19,7 +19,15 @@ from dsf.http import HttpEndpointConnection, HttpEndpointType
 async def get_connection_status(endpoint: HttpEndpointConnection):
     try:
         jwt = await get_jwt()
-        await endpoint.send_response(200, jwt)
+        response = dict(access_token=False, printer_endpoint=False)
+        access_token = jwt.get("access_token")
+        if access_token is not None:
+            response["access_token"] = True
+            printer = await get_printer(jwt=jwt["access_token"])
+            if printer.id:
+                response["printer"] = True
+
+        await endpoint.send_response(200, response)
     except ConfigurationError as e:
         await endpoint.send_response(400, json.dumps({"error": str(e)}))
     except Exception as e:
